@@ -1,7 +1,11 @@
 import { use, useState } from "react";
 
-export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3000/api/users");
+export async function getServerSideProps(context) {
+  const baseUrl = process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}` 
+    : "http://localhost:3000";
+
+  const res = await fetch(`${baseUrl}/api/users`);
   const data = await res.json();
 
   return {
@@ -10,6 +14,7 @@ export async function getServerSideProps() {
     },
   };
 }
+
 
 export default function Home({ kullanicilar }) {
   const [ad, setAd] = useState("");
